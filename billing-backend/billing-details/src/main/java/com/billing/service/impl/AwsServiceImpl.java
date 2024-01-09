@@ -3,10 +3,7 @@ package com.billing.service.impl;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -14,7 +11,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,10 +85,10 @@ public class AwsServiceImpl implements AwsService {
 	  public List<Map<String, Double>> calculateMonthlyTotalBills(List<Aws> billingDetails) {
         Map<String, Double> monthlyTotalBillsMap = new LinkedHashMap<>();
         Map<Integer, String> monthNames = Map.ofEntries(
-                Map.entry(1, "January"), Map.entry(2, "February"), Map.entry(3, "March"),
-                Map.entry(4, "April"), Map.entry(5, "May"), Map.entry(6, "June"),
-                Map.entry(7, "July"), Map.entry(8, "August"), Map.entry(9, "September"),
-                Map.entry(10, "October"), Map.entry(11, "November"), Map.entry(12, "December")
+                Map.entry(1, "Jan"), Map.entry(2, "Feb"), Map.entry(3, "Mar"),
+                Map.entry(4, "Apr"), Map.entry(5, "May"), Map.entry(6, "Jun"),
+                Map.entry(7, "Jul"), Map.entry(8, "Aug"), Map.entry(9, "Sep"),
+                Map.entry(10, "Oct"), Map.entry(11, "Nov"), Map.entry(12, "Dec")
         );
 
         for (Aws aws : billingDetails) {

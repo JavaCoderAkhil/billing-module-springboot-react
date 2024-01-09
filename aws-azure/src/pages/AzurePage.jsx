@@ -1,19 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Button, Card, Grid } from "@mui/material";
-import { azureService, gcpService } from "../services/Services";
+import { Card, Grid } from "@mui/material";
+import { azureService } from "../services/Services";
 import DurationSelector from "../components/DurationSelector";
-import DateSelector from "../components/DateSelector";
-import Paper from "@mui/material/Paper";
 import Sidenav from "../components/Sidenav";
 import Navbar from "../components/Navbar";
 import { Box } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import toast from "react-hot-toast";
-import GcpMonthlyTotalBillsChart from "../components/Gcp/GcpMonthlyTotalBillsChart";
 import AzureSelector from "../components/Azure/AzureSelector";
 import AzureTable from "../tables/AzureTable";
-import TopResourseTypeHorz from "../components/Azure/TopResourseTypeHorz";
-import TopResourceTypePieChart from "../components/Azure/TopResourseTypePieChart";
 import CustomBarChart from "../components/CustomBarChart";
 import CustomPieChart from "../components/CustomPieChart";
 
@@ -26,10 +21,7 @@ export const AzurePage = () => {
   });
   const [months, setMonths] = useState(3);
   const [display, setDisplay] = useState(false);
-  const [isDateDisabled, setIsDateDisabled] = useState(false);
-  const [isMonthDisabled, setIsMonthDisabled] = useState(false);
   const [data, setData] = useState([]);
-  const [submitClicked, setSubmitClicked] = useState(false);
   const [calling, setCalling] = useState(true);
 
   useEffect(() => {
@@ -40,21 +32,6 @@ export const AzurePage = () => {
     ? parseFloat(data.totalCost).toFixed(2)
     : null;
 
-  const handleStartDateChange = (event) => {
-    setDateRange({
-      ...dateRange,
-      startDate: event.target.value,
-    });
-    //setIsMonthDisabled(event.target.value !== "" || dateRange.endDate !== "");
-  };
-
-  const handleEndDateChange = (event) => {
-    setDateRange({
-      ...dateRange,
-      endDate: event.target.value,
-    });
-    // setIsMonthDisabled(dateRange.startDate !== "" || event.target.value !== "");
-  };
 
   const handleMonthChange = (selectedMonth) => {
     console.log("selectedMonthssss", selectedMonth);
@@ -63,25 +40,6 @@ export const AzurePage = () => {
     //setIsDateDisabled(event.target.value !== "0");
     setCalling(!calling);
   };
-
-  // const handleReset = () => {
-  //   setResourseType("");
-  //   setDateRange({
-  //     startDate: "",
-  //     endDate: "",
-  //   });
-  //   setMonths(1);
-  //   setIsDateDisabled(false);
-  //   setIsMonthDisabled(false);
-  //   setData([]);
-  //   setSubmitClicked(false);
-  //   setDisplay(false);
-  // };
-
-  // const handleSubmitClicked = () => {
-  //   forAzureGet();
-  //   setSubmitClicked(false);
-  // };
 
   const handleServiceChange = (event) => {
     setResourseType(event.target.value);
@@ -95,14 +53,15 @@ export const AzurePage = () => {
   const forAzureGet = async () => {
     azureService(resourseType, dateRange.startDate, dateRange.endDate, months)
       .then((res) => {
-        console.log(res);
+        console.log(res,"respo");
         setData(res);
         // if (res.message === "No billing details available.") {
         //   toast.error("Please select required fields");
         // }
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error,"hhjhhhhhhhh");
+        toast(error?.message)
       });
   };
 
@@ -119,23 +78,11 @@ export const AzurePage = () => {
     width: "100%",
   };
 
-  const MonthDisabled = () => {
-    return dateRange.startDate !== "" || dateRange.endDate !== "";
-  };
-
-  const DateDisabled = () => {
-    return months !== 0;
-  };
-
   useEffect(() => {
     const savedService = localStorage.getItem("service");
 
     if (savedService) setResourseType(savedService);
   }, []);
-
-  const updateLocalStorage = () => {
-    localStorage.setItem("service", resourseType);
-  };
 
   const topFiveCustomers = data.top5ResourceTypes?.map((item) => {
     const { resourseType, totalCost } = item;
@@ -202,18 +149,6 @@ export const AzurePage = () => {
                       />
                     </div>
                   </Grid>
-
-                  {/* <Grid item xs={12} sm={6} md={6} lg={5} xl={5}>
-                    <h5>Select Date</h5>
-                    <DateSelector
-                      handleStartDateChange={handleStartDateChange}
-                      handleEndDateChange={handleEndDateChange}
-                      dateRange={dateRange}
-                      DateDisabled={DateDisabled}
-                      disabled={isDateDisabled} // Pass isDateDisabled as a prop here
-                    />
-                  </Grid> */}
-
                   <Grid item xs={12} sm={6} md={6} lg={2} xl={2}>
                     <div>
                       <h5>Duration</h5>
@@ -227,82 +162,10 @@ export const AzurePage = () => {
                     </div>
                   </Grid>
 
-                  {/* <Grid item xs={6} md={0.8} sm={12}>
-                    <Button variant="outlined" onClick={handleReset}>
-                      Reset
-                    </Button>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={handleSubmitClicked}
-                    >
-                      Submit
-                    </Button>
-                  </Grid> */}
+                  
                 </Grid>
               </Box>
             </Card>
-
-            {/* <Grid container spacing={3}>
-              
-              <Grid sx={{ px: 2, py: 4, m: 2 }} item xs={11.2} md={6} lg={8}>
-                {data &&
-                  ((data?.monthlyTotalBills &&
-                    Object.keys(data.monthlyTotalBills).length > 0 &&
-                    resourseType) ||
-                  (!resourseType &&
-                    ((dateRange.startDate && dateRange.endDate) || months)) ? (
-                    <GcpMonthlyTotalBillsChart
-                      monthlyTotalBills={data?.monthlyTotalBills}
-                    />
-                  ) : (
-                    <div className="chart-container">
-                      <div className="headtag">
-                        <GcpMonthlyTotalBillsChart />
-                      </div>
-                    </div>
-                  ))}
-              </Grid>
-
-              
-              <Grid sx={{ px: 2, py: 4, m: 2 }} item xs={11.2} md={6} lg={3}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: "flex",
-                    flexDirection: "column",
-                    height: 250,
-                    padding: 5,
-                    backgroundColor: "#d3d3f3",
-                  }}
-                >
-                  <h5>Total Amount</h5>
-                  {formattedTotalCost !== null ? (
-                    <Typography component="p" variant="h6">
-                      ₹{formattedTotalCost}
-                    </Typography>
-                  ) : (
-                    <Typography component="p" variant="body1">
-                      ₹0.00
-                    </Typography>
-                  )}
-                </Paper>
-              </Grid>
-
-              
-              <Grid sx={{ px: 2, py: 4, m: 2 }} item xs={11.2} md={6} lg={7}>
-                <TopResourseTypeHorz
-                  top5ResourceTypes={data && data?.top5ResourceTypes}
-                />
-              </Grid>
-
-             
-              <Grid sx={{ px: 2, py: 4, m: 2 }} item xs={11.2} md={6} lg={4}>
-                <TopResourceTypePieChart
-                  top5ResourceTypes={data && data.top5ResourceTypes}
-                />
-              </Grid>
-            </Grid> */}
 
             <Grid container spacing={3}>
               {/* Barchart  */}
@@ -316,19 +179,6 @@ export const AzurePage = () => {
                     colors={["#10B981", "#FE6476", "#FEA37C", "#048DAD"]}
                   />
                 </div>
-
-                {/* {(data?.monthlyTotalAmounts?.length > 0 && service) ||
-                (!service &&
-                  ((dateRange.startDate && dateRange.endDate) || months)) ? (
-                  <BarChat data={data?.monthlyTotalAmounts} />
-                ) : (
-                  <div className="chart-container">
-                    
-                    <div className="headtag">
-                      <BarChat />
-                    </div>
-                  </div>
-                )} */}
               </Grid>
 
               {/* Totalamount */}
@@ -361,38 +211,7 @@ export const AzurePage = () => {
                     height={300}
                   />
                 </div>
-                {/* <Paper
-                  sx={{
-                    p: 2,
-                    display: "flex",
-                    flexDirection: "column",
-                    height: 250,
-                    padding: 5,
-                    backgroundColor: "#d3d3f3",
-                  }}
-                >
-                  <h5>Total Amount</h5>
-                  {formattedTotalAmount !== null ? (
-                    <Typography component="p" variant="h6">
-                      
-                    </Typography>
-                  ) : (
-                    <Typography component="p" variant="body1">
-                      $0.00
-                    </Typography>
-                  )}
-                </Paper> */}
               </Grid>
-
-              {/* ServicesChart*/}
-              {/* <Grid  item xs={11.2} md={11.5} lg={12}>
-                <div className="card p-3">
-                  <div className="h5 fw-bold">Top 5 Consumers</div>
-              <CustomBarChart data={ data?.top10Services && topFiveCustomersBarChart} height={350} barLineSize={60}    colors={["#10B981", "#FE6476", "#FEA37C", "#048DAD"]} />
-              </div>
-              </Grid> */}
-
-              {/* ServicesPieChart*/}
             </Grid>
 
             <Card sx={{ px: 2, py: 4, m: 2 }}>

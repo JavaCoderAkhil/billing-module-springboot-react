@@ -51,18 +51,45 @@ const  DurationSelector = ({ months, handleMonthChange,setDateRange,setCalling,c
     },
   ];
 
-  const handleMonthSelection = (selectedMonth) => {
+  // const handleMonthSelection = (selectedMonth) => {
 
-    if (selectedMonth === 0) {
+  //   if (selectedMonth === 0) {
+  //     setOpenModal(true);
+  //     handleMonthChange(selectedMonth);
+  //     setCustomDate(true);
+  //   } else {
+  //     handleMonthChange(selectedMonth);
+  //     setCustomDate(false);
+  //     setFromDate(null)
+  //     setToDate(null)
+  //     setDateRange({startDate:null,endDate:null})
+  //   }
+  // };
+  // const handleMonthSelection = (selectedMonth) => {
+  //   if (selectedMonth === 0 || customDate == false) {
+  //     setOpenModal(true);
+  //     handleMonthChange(selectedMonth);
+  //     setCustomDate(true);
+  //   } else {
+  //     handleMonthChange(selectedMonth);
+  //     setCustomDate(false);
+  //     setFromDate(null);
+  //     setToDate(null);
+  //     setDateRange({ startDate: null, endDate: null });
+  //   }
+  // };
+  const handleMonthSelection = (selectedMonth) => {
+    if (selectedMonth === 0 ) {
       setOpenModal(true);
       handleMonthChange(selectedMonth);
       setCustomDate(true);
     } else {
       handleMonthChange(selectedMonth);
       setCustomDate(false);
-      setFromDate(null)
-      setToDate(null)
-      setDateRange({startDate:null,endDate:null})
+      setFromDate(null);
+      setToDate(null);
+      setDateRange({ startDate: null, endDate: null });
+      setOpenModal(false); // Close modal for predefined date ranges
     }
   };
 
@@ -80,12 +107,18 @@ const  DurationSelector = ({ months, handleMonthChange,setDateRange,setCalling,c
     handleCustomDateSelection();
   }
 
+ 
+  // const handleCustomDateSelection = () => {
+  //   setDateRange({ startDate: fromDate, endDate: toDate });
+  //   setCustomDate(false);
+  //   setOpenModal(false);
+  //   setCalling(!calling);
+  // };
   const handleCustomDateSelection = () => {
-   
-    setDateRange({startDate:fromDate,endDate:toDate})
-    setCustomDate(false); 
-    setOpenModal(false); 
-    setCalling(!calling)
+    setDateRange({ startDate: fromDate, endDate: toDate });
+    setCustomDate(false);
+    setOpenModal(false);
+    setCalling(!calling);
   };
 
   return (
