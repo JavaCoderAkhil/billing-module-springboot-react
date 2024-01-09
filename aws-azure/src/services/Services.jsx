@@ -1,6 +1,6 @@
 import axios from "axios";
  
-const BASE_URL = "http://172.20.100.7:8080"; // Assuming the base URL is the same for all endpoints
+const BASE_URL = "http://172.20.100.7:8080"; 
  
 const getAuthHeaders = () => {
   const token = localStorage.getItem("token");
@@ -12,7 +12,7 @@ const getAuthHeaders = () => {
  
 export const UserSignUpService = async (data) => {
   try {
-    const response = await axios.post(`${BASE_URL}/auth/register`, data);
+    const response = await axios.post(`${BASE_URL}/auth/registerr`, data);
     return response.data;
   } catch (error) {
     console.error("User Sign Up Error:", error);
@@ -32,17 +32,28 @@ export const UserLoginService = async (data) => {
  
 export const awsService = async (service, startDate, endDate, months) => {
   try {
-    const endpoint = months === 0
-      ? `/aws/billing-details?service=${service}&startDate=${startDate}&endDate=${endDate}`
-      : `/aws/billing-details?service=${service}&months=${months}`;
+    let endpoint = '/aws/billing-details';
  
+    if (service && startDate && endDate) {
+      endpoint += `?service=${service}&startDate=${startDate}&endDate=${endDate}`;
+    } else if (service && months) {
+      endpoint += `?service=${service}&months=${months}`;
+    } else if (startDate && endDate) {
+      endpoint += `?startDate=${startDate}&endDate=${endDate}`;
+    } else if (months) {
+      endpoint += `?months=${months}`;
+    } else {
+      throw new Error('Invalid parameters');
+    }
+
+
     const response = await axios.get(`${BASE_URL}${endpoint}`, {
       headers: getAuthHeaders(),
     });
     return response.data;
   } catch (error) {
     console.error("AWS Service Error:", error);
-    throw error; // Propagate the error to handle it where this function is called
+    throw error; 
   }
 };
  

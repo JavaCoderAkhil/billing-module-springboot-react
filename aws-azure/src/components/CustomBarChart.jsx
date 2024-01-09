@@ -73,8 +73,8 @@ const CustomBarChart = ({ width, height, data, barLineSize, colors, xfontSize, d
                                     // stackOffset={dataKeys?.length > 1 ? "expand" : "none"}
                                     >
                                         <CartesianGrid horizontal={true} vertical={false} />
-                                        <XAxis dataKey="name" axisLine={false} tick={{ fontSize: xfontSize, }} />
-                                        <YAxis axisLine={false} tick={{ fontSize: 13,  }} tickFormatter={formatPercent} />
+                                        <XAxis dataKey="name" axisLine={false} tick={{ fontSize: 11, }} />
+                                        <YAxis axisLine={false} tick={{ fontSize: 11,  }} tickFormatter={formatPercent} />
                                         <Tooltip content={<CustomTooltip />} />
                                         {dataKeys && dataKeys?.length > 1 && <Legend iconType="circle" formatter={(value) => formatLegend(value)} />}
 

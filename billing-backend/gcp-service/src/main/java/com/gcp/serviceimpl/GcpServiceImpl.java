@@ -188,10 +188,10 @@ public class GcpServiceImpl implements GcpService {
 	public List<Map<String, Double>> calculateMonthlyTotalBills(List<Gcp> billingDetails) {
 	    Map<String, Double> monthlyTotalBillsMap = new LinkedHashMap<>();
 	    Map<Integer, String> monthNames = Map.ofEntries(
-	            Map.entry(1, "January"), Map.entry(2, "February"), Map.entry(3, "March"),
-	            Map.entry(4, "April"), Map.entry(5, "May"), Map.entry(6, "June"),
-	            Map.entry(7, "July"), Map.entry(8, "August"), Map.entry(9, "September"),
-	            Map.entry(10, "October"), Map.entry(11, "November"), Map.entry(12, "December")
+	            Map.entry(1, "Jan"), Map.entry(2, "Feb"), Map.entry(3, "Mar"),
+	            Map.entry(4, "Apr"), Map.entry(5, "May"), Map.entry(6, "Jun"),
+	            Map.entry(7, "Jul"), Map.entry(8, "Aug"), Map.entry(9, "Sep"),
+	            Map.entry(10, "Oct"), Map.entry(11, "Nov"), Map.entry(12, "Dec")
 	    );
 
 	    for (Gcp gcp: billingDetails) {
