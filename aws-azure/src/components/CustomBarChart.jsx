@@ -87,7 +87,7 @@ const CustomBarChart = ({ width, height, data, barLineSize, colors, xfontSize, d
                             }
                         </ResponsiveContainer >
                     </>
-                    : <div className=''>loading...</div>
+                    : <ResponsiveContainer width="100%"  height={height}> <div className=''>loading...</div></ResponsiveContainer>
                     //  <CardSkeleton height={height} width={width} />
                      }
         </>
