@@ -18,7 +18,7 @@ export const AwsPage = () => {
     startDate: null,
     endDate: null,
   });
-  const [months, setMonths] = useState(3);
+  const [months, setMonths] = useState(1);
   const [display, setDisplay] = useState(false);
   const [data, setData] = useState([]);
   const [calling, setCalling] = useState(true);
@@ -166,7 +166,7 @@ export const AwsPage = () => {
                   <div className="fw-bold h5">Billing Summary</div>
                   <CustomBarChart
                     data={data?.monthlyTotalAmounts && monthdata}
-                    height={430}
+                    height={460}
                     barLineSize={60}
                     colors={["#10B981", "#FE6476", "#FEA37C", "#048DAD"]}
                   />
@@ -178,7 +178,7 @@ export const AwsPage = () => {
                 <div className="card p-3">
                   <div className="p-3">
                     <span className="h5 fw-bold">Billing Period</span>{" "}
-                    <span className=" fw-bold">
+                    <span className="h5 fw-bold">
                       ({data?.billingPeriod?.map((i) => i?.BillingPeriod)})
                     </span>
                   </div>
@@ -191,8 +191,43 @@ export const AwsPage = () => {
                         paddingLeft: "4px",
                       }}
                     >
-                      <span className="px-1">{"$"}</span>
-                      {data?.totalAmount && data?.totalAmount?.toFixed(2)}
+                      <span className="px-1 fw-bold">
+                        {"$"}{" "}
+                        {data?.totalAmount && data?.totalAmount?.toFixed(2)}
+                      </span>
+                    </span>
+                  </div>
+                </div>
+
+                <div className="card p-3 mt-2">
+                  <div className="p-3">
+                    <div className="h5 fw-bold">Top 5 Consumers</div>
+                    <CustomPieChart
+                      data={data?.top10Services && topFiveCustomers}
+                      height={300}
+                    />
+                  </div>
+                </div>
+              </Grid>
+
+              {/* <Grid item xs={11.2} md={6} lg={4}>
+                <div className="card p-3">
+                  <div className="p-3">
+                    <span className="h5 fw-bold">Billing Period</span>{" "}
+                    <span className="h5 fw-bold">
+                      ({data?.billingPeriod?.map((i) => i?.BillingPeriod)})
+                    </span>
+                  </div>
+                  <div className="d-flex justify-content-center">
+                    <span style={{ fontSize: "20px" }}>Total Amount-</span>
+                    <span
+                      style={{
+                        fontSize: "20px",
+                        color: "#10B981",
+                        paddingLeft: "4px",
+                      }}
+                    >
+                      <span className="px-1 fw-bold">{"$"} {data?.totalAmount && data?.totalAmount?.toFixed(2)}</span>
                     </span>
                   </div>
                 </div>
@@ -203,7 +238,7 @@ export const AwsPage = () => {
                     height={300}
                   />
                 </div>
-              </Grid>
+              </Grid> */}
 
               {/* ServicesPieChart*/}
             </Grid>
